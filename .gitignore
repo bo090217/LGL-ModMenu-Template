@@ -86,3 +86,9 @@ lint/tmp/
 
 # Android Profiling
 *.hprof
+
+# Build logs
+build_log*.txt
+
+# Splits config (generated)
+splits*.xml
