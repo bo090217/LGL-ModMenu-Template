@@ -1,0 +1,34 @@
+name: Build SO
+
+on:
+  push:
+    branches: [ master ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup JDK
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+
+      - name: Setup Android NDK
+        uses: nttld/setup-ndk@v1
+        with:
+          ndk-version: r25c
+
+      - name: Build
+        run: |
+          chmod +x gradlew
+          ./gradlew assembleRelease
+
+      - name: Upload SO
+        uses: actions/upload-artifact@v3
+        with:
+          name: mod-so-files
+          path: app/build/intermediates/cmake/release/obj/**/*.so
